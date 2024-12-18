@@ -1,10 +1,10 @@
-biopython
+biopython=1.78
 reportlab
 MechanicalSoup=0.11.0
 lxml
-PyPDF2
+PyPDF2=2.9.0
 scipy
 
 # External binaries
 blast
-muscle
+muscle=3.8.1551

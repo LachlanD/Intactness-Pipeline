@@ -62,9 +62,16 @@ def submit_GC(email_address):
     logger.info('Submitting job to Gene Cutter')
     sleep_btw(0, 5)
 
+    
     # Parse download url
-    job_id = re.search(r'<b>/tmp/GENE_CUTTER/(.*)</b>',
+    #### Original
+    # job_id = re.search(r'<b>/tmp/GENE_CUTTER/(.*)</b>',
+    #         response.content.decode()).group(1)
+    
+    #### Lachlan modified
+    job_id = re.search(r'<b>GENE_CUTTER/(.*)</b>',
             response.content.decode()).group(1)
+    
 
     logger.info('Gene Cutter Job ID: {}'.format(job_id))
     sleep_btw(0, 5)
@@ -81,9 +88,13 @@ def submit_GC(email_address):
         if b'Request Rejected' not in response.content:
             with open('data/seqs/genecutter.zip', 'wb') as fh:
                 fh.write(response.content)
-            fnz = zipfile.ZipFile('data/seqs/genecutter.zip', 'r')
-            fnz.extractall('data/seqs/')
-            fnz.close()
+            try:
+              fnz = zipfile.ZipFile('data/seqs/genecutter.zip', 'r')
+              fnz.extractall('data/seqs/')
+              fnz.close()
+            except Exception as err:
+              logger.info('Zip read error, trying download again')
+              continue
 
             os.rename('data/seqs/genecutter', 'data/seqs/Gene_Cutter')
             os.mkdir('data/seqs/Gene_Cutter/indv_reports')
