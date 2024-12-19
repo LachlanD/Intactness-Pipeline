@@ -4,7 +4,7 @@ The best way to manage the dependency of this repo is through a conda virtual
 environment. Use the following commands in your terminal
 
 ```
-conda create intactness python=3
+conda create intactness python=3.10.0
 conda activate intactness
 conda install --file requirements.txt
 ```
